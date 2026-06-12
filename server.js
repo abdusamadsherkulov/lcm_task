@@ -12,7 +12,11 @@ function gcd(a, b) {
 }
 
 function lcm(x, y) {
-    return (x * y) / gcd(x, y);
+    x = BigInt(x);
+    y = BigInt(y);
+
+    let g = gcd(x,y);
+    return (x * y / g).toString();
 }
 
 app.get('/abdusamadsherkulov_gmail_com', (req, res) => {
