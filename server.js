@@ -20,19 +20,27 @@ function lcm(x, y) {
 }
 
 app.get('/abdusamadsherkulov_gmail_com', (req, res) => {
-    const x = Number(req.query.x);
-    const y = Number(req.query.y);
+    try {
+        const xStr = req.query.x;
+        const yStr = req.query.y;
 
-    if (
-        !Number.isInteger(x) ||
-        !Number.isInteger(y) ||
-        x < 1 ||
-        y < 1
-    ) {
+        if (xStr === undefined || yStr === undefined) {
+            return res.send('NaN');
+        }
+
+        const x = BigInt(xStr);
+        const y = BigInt(yStr);
+
+        if (x < 1n || y < 1n) {
+            return res.send('NaN');
+        }
+
+        const result = lcm(x, y);
+        return res.send(result.toString());
+
+    } catch (e) {
         return res.send('NaN');
-    }
-
-    return res.send(lcm(x, y));
+    };
 });
 
 const PORT = process.env.PORT || 3000;
