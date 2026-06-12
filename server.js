@@ -15,7 +15,7 @@ function lcm(x, y) {
     return (x * y) / gcd(x, y);
 }
 
-app.get('/abdusamad_sherkulov_gmail_com', (req, res) => {
+app.get('/abdusamadsherkulov_gmail_com', (req, res) => {
     const x = Number(req.query.x);
     const y = Number(req.query.y);
 
