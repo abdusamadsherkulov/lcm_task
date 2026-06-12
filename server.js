@@ -2,48 +2,47 @@ const express = require('express');
 const app = express();
 
 function gcd(a, b) {
-    while (b !== 0) {
+    while (b !== 0n) {
         let temp = b;
         b = a % b;
         a = temp;
     }
-
     return a;
 }
 
 function lcm(x, y) {
-    x = BigInt(x);
-    y = BigInt(y);
+    return (x * y) / gcd(x, y);
+}
 
-    let g = gcd(x,y);
-    return (x * y / g).toString();
+// strict natural number check (VERY IMPORTANT)
+function isValidNatural(str) {
+    return /^[1-9]\d*$/.test(str);
 }
 
 app.get('/abdusamadsherkulov_gmail_com', (req, res) => {
-    try {
-        const xStr = req.query.x;
-        const yStr = req.query.y;
+    const xStr = req.query.x;
+    const yStr = req.query.y;
 
-        if (xStr === undefined || yStr === undefined) {
-            return res.send('NaN');
-        }
-
-        const x = BigInt(xStr);
-        const y = BigInt(yStr);
-
-        if (x < 1n || y < 1n) {
-            return res.send('NaN');
-        }
-
-        const result = lcm(x, y);
-        return res.send(result.toString());
-
-    } catch (e) {
+    // must exist
+    if (!xStr || !yStr) {
         return res.send('NaN');
-    };
+    }
+
+    // must be natural numbers ONLY
+    if (!isValidNatural(xStr) || !isValidNatural(yStr)) {
+        return res.send('NaN');
+    }
+
+    // safe conversion (no crash possible now)
+    const x = BigInt(xStr);
+    const y = BigInt(yStr);
+
+    const result = lcm(x, y);
+
+    return res.send(result.toString());
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server running`);
+    console.log("Server running on port", PORT);
 });
