@@ -32,7 +32,7 @@ app.get('/abdusamadsherkulov_gmail_com', (req, res) => {
         return res.send('NaN');
     }
 
-    return res.send(String(lcm(x, y)));
+    return res.send(lcm(x, y));
 });
 
 const PORT = process.env.PORT || 3000;
